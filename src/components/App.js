@@ -9,6 +9,7 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import { api } from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import '../App.css';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
     avatar: ''
   });
   const [cards, setCards] = useState([]);
+  const [loggedIn, setLoggedIn] = useState(false);
   
   useEffect(() => {
     api.getInitialCards()
@@ -146,7 +148,24 @@ function App() {
     <CurrentUserContext.Provider value={currentUser} >
       <div className="page">
         <Header />
-        <Main cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete} onCardClick={handleCardClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              loggedIn
+              ? <Main
+                  cards={cards}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleCardDelete}
+                  onCardClick={handleCardClick}
+                  onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onEditAvatar={handleEditAvatarClick}
+                />
+              : <Navigate to="/sign-in" replace />
+            }
+          />
+        </Routes>
         <Footer />
         <EditProfilePopup onUpdateUser={handleUpdateUser} isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
         <AddPlacePopup onAddPlace={handleAddPlaceSubmit} isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
