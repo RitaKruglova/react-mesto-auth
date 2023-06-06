@@ -10,6 +10,8 @@ import AddPlacePopup from './AddPlacePopup';
 import { api } from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import Login from './Login';
+import Register from './Register';
 import '../App.css';
 
 function App() {
@@ -164,6 +166,8 @@ function App() {
               : <Navigate to="/sign-in" replace />
             }
           />
+          <Route path="/sign-in" element={<Login />} />
+          <Route path="sign-up" element={<Register />} />
         </Routes>
         <Footer />
         <EditProfilePopup
