@@ -1,8 +1,8 @@
-function AuthenticationForm({ buttonText }) {
+function AuthenticationForm({ buttonText, title }) {
 
   return (
     <div className="authentication">
-      <h2 className="authentication__title"></h2>
+      <h2 className="authentication__title">{title}</h2>
       <form className="authentication__form">
         <input
           id="emailInput"
@@ -23,8 +23,12 @@ function AuthenticationForm({ buttonText }) {
         <button
           className="authentication__submit-button"
           type="submit"
-        >{buttonText}</button>
+        >
+          {buttonText}
+        </button>
       </form>
     </div>
   )
 }
+
+export default AuthenticationForm;
