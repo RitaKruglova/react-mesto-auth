@@ -6,3 +6,5 @@ function Login() {
     <AuthenticationForm buttonText="Войти" title="Вход" />
   )
 }
+
+export default Login;
