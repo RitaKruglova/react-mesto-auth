@@ -7,3 +7,12 @@
   line-height: 22px;
   padding: 0;
 }
+
+@media screen and (max-width: 465px) {
+  .authentication__submit-button {
+    width: 260px;
+    height: 46px;
+    font-size: 16px;
+    line-height: 19px;
+  }
+}

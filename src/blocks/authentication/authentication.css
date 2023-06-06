@@ -4,3 +4,9 @@
   align-items: center;
   margin-top: 60px;
 }
+
+@media screen and (max-width: 465px) {
+  .authentication {
+    margin-top: 40px;
+  }
+}

@@ -6,7 +6,7 @@ function Register() {
   return (
     <>
       <AuthenticationForm buttonText="Зарегистрироваться" title="Регистрация" />
-      <Link className="register-link" to="/sign-in" >Уже зарегистрированы? Войти</Link>
+      <Link className="authentication__link" to="/sign-in" >Уже зарегистрированы? Войти</Link>
     </>
   )
 }
