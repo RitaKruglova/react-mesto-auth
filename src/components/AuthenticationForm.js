@@ -9,7 +9,7 @@ function AuthenticationForm({ buttonText, title }) {
           className="authentication__input"
           type="email"
           name="email"
-          placeholder="email"
+          placeholder="Email"
           required
         />
         <input
