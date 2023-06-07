@@ -19,6 +19,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({
     name: '',
@@ -152,15 +153,7 @@ function App() {
         <Header />
         <Routes>
           <Route
-            path="/"
-            element={
-              loggedIn
-              ? <Navigate to="/cards" replace />
-              : <Navigate to="/sign-in" replace />
-            }
-          />
-          <Route
-            path='/cards'
+            path='/'
             element={
               <ProtectedRoute
                 loggedIn={loggedIn}
