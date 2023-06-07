@@ -12,6 +12,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
+import ProtectedRoute from './ProtectedRoute';
 import '../App.css';
 
 function App() {
@@ -154,16 +155,24 @@ function App() {
             path="/"
             element={
               loggedIn
-              ? <Main
-                  cards={cards}
-                  onCardLike={handleCardLike}
-                  onCardDelete={handleCardDelete}
-                  onCardClick={handleCardClick}
-                  onEditProfile={handleEditProfileClick}
-                  onAddPlace={handleAddPlaceClick}
-                  onEditAvatar={handleEditAvatarClick}
-                />
+              ? <Navigate to="/cards" replace />
               : <Navigate to="/sign-in" replace />
+            }
+          />
+          <Route
+            path='/cards'
+            element={
+              <ProtectedRoute
+                loggedIn={loggedIn}
+                cards={cards}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
+                onCardClick={handleCardClick}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onEditAvatar={handleEditAvatarClick}
+                element={Main}
+              />
             }
           />
           <Route path="/sign-in" element={<Login />} />
