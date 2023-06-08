@@ -1,5 +1,4 @@
 function AuthenticationForm(props) {
-  console.log(props.formValue)
   return (
     <div className="authentication">
       <h2 className="authentication__title">{props.title}</h2>
