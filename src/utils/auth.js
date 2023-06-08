@@ -16,7 +16,6 @@ export function register(email, password) {
       }
     })
     .then(res => res)
-    .catch(err => console.log(err))
 }
 
 export function authorise(email, password) {

@@ -73,6 +73,11 @@ function App() {
     }
   }
 
+  function changeRegistrationState(boolean) {
+    setIsRegistrationSuccess(boolean);
+    setIsInfoTooltipPopupOpen(true);
+  }
+
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
   }
@@ -198,7 +203,14 @@ function App() {
             }
           />
           <Route path="/sign-in" element={<Login handleLogin={handleLogin} />} />
-          <Route path="sign-up" element={<Register />} />
+          <Route
+            path="sign-up"
+            element={
+              <Register
+                changeRegistrationState={changeRegistrationState}
+              />
+            }
+          />
         </Routes>
         <Footer />
         <EditProfilePopup
