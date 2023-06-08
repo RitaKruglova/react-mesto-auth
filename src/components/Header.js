@@ -21,7 +21,7 @@ function Header(props) {
     } else {
       return (
         <ul className="header__info">
-          <li className="header__email">{props.email}</li>
+          <li className="header__email">kruglova@mail.ru</li>
           <li className="header__link" onClick={handleClick}>Выйти</li>
         </ul>
       )
