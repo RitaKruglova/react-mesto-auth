@@ -31,6 +31,7 @@ function App() {
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
+  const [email, setEmail] = useState('');
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -64,8 +65,9 @@ function App() {
       getToken(jwt)
         .then(res => {
           if (res) {
+            setEmail(res.data.email);
             setLoggedIn(true);
-            navigate('/', {replace: true})
+            navigate('/', {replace: true});
           }
         })
     }
@@ -177,7 +179,7 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser} >
       <div className="page">
-        <Header />
+        <Header email={email}/>
         <Routes>
           <Route
             path='/'
