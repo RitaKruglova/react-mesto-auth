@@ -5,10 +5,6 @@ function Header(props) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  function handleClick() {
-    navigate('/sign-in');
-  }
-
   function getPath() {
     if (location.pathname === '/sign-in') {
       return (
@@ -21,11 +17,16 @@ function Header(props) {
     } else {
       return (
         <ul className="header__info">
-          <li className="header__email">kruglova@mail.ru</li>
-          <li className="header__link" onClick={handleClick}>Выйти</li>
+          <li className="header__email">{props.email}</li>
+          <li className="header__link" onClick={logout}>Выйти</li>
         </ul>
       )
     }
+  }
+
+  function logout() {
+    localStorage.removeItem('jwt');
+    navigate('/sign-in');
   }
 
   return (

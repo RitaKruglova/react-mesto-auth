@@ -8,3 +8,7 @@
   text-decoration: none;
   margin-top: 5px;
 }
+
+.header__link:hover {
+  cursor: pointer;
+}
