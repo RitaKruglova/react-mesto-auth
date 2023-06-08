@@ -9,12 +9,13 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import { api } from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
 import '../App.css';
 import InfoTooltip from './InfoTooltip';
+import { getToken } from '../utils/auth';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -30,6 +31,7 @@ function App() {
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
+  const navigate = useNavigate();
   
   useEffect(() => {
     api.getInitialCards()
@@ -50,6 +52,24 @@ function App() {
         console.log(err);
       })
   }, []);
+
+  useEffect(() => {
+    checkToken();
+  }, []);
+
+  function checkToken() {
+    if (localStorage.getItem('jwt')) {
+      const jwt = localStorage.getItem('jwt');
+
+      getToken(jwt)
+        .then(res => {
+          if (res) {
+            setLoggedIn(true);
+            navigate('/', {replace: true})
+          }
+        })
+    }
+  }
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
