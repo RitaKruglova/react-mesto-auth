@@ -3,7 +3,7 @@ import AuthenticationForm from "./AuthenticationForm";
 import { Link, useNavigate } from 'react-router-dom';
 import { register } from "../utils/auth";
 
-function Register() {
+function Register({changeRegistrationState}) {
   const navigate = useNavigate();
 
   const [formValue, setFormValue] = useState({
@@ -26,7 +26,11 @@ function Register() {
     const {email, password} = formValue;
     register(email, password)
       .then(() => {
-        navigate('/sign-in', {replace: true})
+        changeRegistrationState(true);
+      })
+      .catch(err => {
+        changeRegistrationState(false);
+        console.log(err);
       })
   }
 
