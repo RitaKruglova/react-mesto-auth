@@ -150,6 +150,10 @@ function App() {
       })
   }
 
+  function handleLogin() {
+    setLoggedIn(true);
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser} >
       <div className="page">
@@ -171,7 +175,7 @@ function App() {
               />
             }
           />
-          <Route path="/sign-in" element={<Login />} />
+          <Route path="/sign-in" element={<Login handleLogin={handleLogin} />} />
           <Route path="sign-up" element={<Register />} />
         </Routes>
         <Footer />
