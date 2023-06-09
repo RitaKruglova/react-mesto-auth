@@ -184,7 +184,7 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser} >
       <div className="page">
-        <Header email={email}/>
+        <Header email={email} />
         <Routes>
           <Route
             path='/'
