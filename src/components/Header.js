@@ -1,10 +1,12 @@
 import logo from '../images/logo.svg';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import HeaderButton from './HeaderButton';
 import HeaderInfo from './HeaderInfo';
+import { LoggedInContext } from '../contexts/LoggedInContext';
 
 function Header(props) {
+  const { loggedIn, setLoggedIn } = useContext(LoggedInContext);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -37,7 +39,7 @@ function Header(props) {
     } else {
       if (width > 768) {
         return (
-          <HeaderInfo email={props.email} onClick={logout} />
+          loggedIn && <HeaderInfo email={props.email} onClick={logout} />
         )
       } else {
         return (
@@ -50,11 +52,12 @@ function Header(props) {
   function logout() {
     localStorage.removeItem('jwt');
     navigate('/sign-in');
+    setLoggedIn(false);
   }
 
   return (
     <>
-      {width < 768 && isMenuOpen && <HeaderInfo email={props.email} onClick={logout} />}
+      {width < 768 && isMenuOpen && loggedIn && <HeaderInfo email={props.email} onClick={logout} />}
       <header className="header">
         <img src={logo} alt="Логотип Место" className="header__logo" />
         {getTemplate()}

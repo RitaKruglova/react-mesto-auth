@@ -9,6 +9,7 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import { api } from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { LoggedInContext } from '../contexts/LoggedInContext';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
@@ -183,67 +184,68 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser} >
-      <div className="page">
-        <Header email={email} />
-        <Routes>
-          <Route
-            path='/'
-            element={
-              <ProtectedRoute
-                loggedIn={loggedIn}
-                cards={cards}
-                onCardLike={handleCardLike}
-                onCardDelete={handleCardDelete}
-                onCardClick={handleCardClick}
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick}
-                element={Main}
-              />
-            }
+      <LoggedInContext.Provider value={{loggedIn, setLoggedIn}} >
+        <div className="page">
+          <Header email={email} />
+          <Routes>
+            <Route
+              path='/'
+              element={
+                <ProtectedRoute
+                  cards={cards}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleCardDelete}
+                  onCardClick={handleCardClick}
+                  onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onEditAvatar={handleEditAvatarClick}
+                  element={Main}
+                />
+              }
+            />
+            <Route path="/sign-in" element={<Login handleLogin={handleLogin} checkToken={checkToken} />} />
+            <Route
+              path="sign-up"
+              element={
+                <Register
+                  changeRegistrationState={changeRegistrationState}
+                />
+              }
+            />
+          </Routes>
+          <Footer />
+          <EditProfilePopup
+            onUpdateUser={handleUpdateUser}
+            isOpen={isEditProfilePopupOpen}
+            onClose={closeAllPopups}
           />
-          <Route path="/sign-in" element={<Login handleLogin={handleLogin} />} />
-          <Route
-            path="sign-up"
-            element={
-              <Register
-                changeRegistrationState={changeRegistrationState}
-              />
-            }
+          <AddPlacePopup
+            onAddPlace={handleAddPlaceSubmit}
+            isOpen={isAddPlacePopupOpen}
+            onClose={closeAllPopups}
           />
-        </Routes>
-        <Footer />
-        <EditProfilePopup
-          onUpdateUser={handleUpdateUser}
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
-        />
-        <AddPlacePopup
-          onAddPlace={handleAddPlaceSubmit}
-          isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}
-        />
-        <EditAvatarPopup
-          onUpdateAvatar={handleUpdateAvatar}
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-        />
-        <PopupWithForm
-          name="delete-card"
-          title="Вы уверены?"
-          buttonText="Да"
-          onClose={closeAllPopups}
-        />
-        <ImagePopup
-          onClose={closeAllPopups}
-          card={selectedCard}
-        />
-        <InfoTooltip
-          isOpen={isInfoTooltipPopupOpen}
-          onClose={closeAllPopups}
-          isRegistrationSuccess={isRegistrationSuccess}
-        />
-      </div>
+          <EditAvatarPopup
+            onUpdateAvatar={handleUpdateAvatar}
+            isOpen={isEditAvatarPopupOpen}
+            onClose={closeAllPopups}
+          />
+          <PopupWithForm
+            name="delete-card"
+            title="Вы уверены?"
+            buttonText="Да"
+            onClose={closeAllPopups}
+          />
+          <ImagePopup
+            onClose={closeAllPopups}
+            card={selectedCard}
+          />
+          <InfoTooltip
+            isOpen={isInfoTooltipPopupOpen}
+            onClose={closeAllPopups}
+            isRegistrationSuccess={isRegistrationSuccess}
+          />
+        </div>
+      </LoggedInContext.Provider>
     </CurrentUserContext.Provider>
   );
 }
