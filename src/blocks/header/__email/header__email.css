@@ -7,4 +7,8 @@
   margin: 5px 24px 0 0;
   }
 
-  
+@media screen and (max-width: 768px) {
+  .header__email {
+    margin: 5px 0 10px 0;
+  }
+}
