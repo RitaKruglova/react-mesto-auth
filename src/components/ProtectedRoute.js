@@ -1,8 +1,11 @@
 import { Navigate } from 'react-router-dom';
+import { LoggedInContext } from '../contexts/LoggedInContext';
+import { useContext } from 'react';
 
 function ProtectedRoute({element: Component, ...props}) {
+  const { loggedIn } = useContext(LoggedInContext);
   return (
-    props.loggedIn ? <Component {...props} /> : <Navigate to="/sign-in" replace />
+    loggedIn ? <Component {...props} /> : <Navigate to="/sign-in" replace />
   )
 }
 
