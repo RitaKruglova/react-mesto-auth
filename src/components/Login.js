@@ -3,7 +3,7 @@ import { useState } from "react";
 import { authorise } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
 
-function Login({ handleLogin }) {
+function Login({ handleLogin, checkToken }) {
   const navigate = useNavigate();
 
   const [formValue, setFormValue] = useState({
@@ -30,7 +30,8 @@ function Login({ handleLogin }) {
           password: ''
         });
         handleLogin();
-        navigate('/', {replace: true})
+        checkToken();
+        navigate('/', {replace: true});
       })
   }
 
