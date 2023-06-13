@@ -1,7 +1,7 @@
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { useContext} from 'react';
 
-function Card({ card, onCardClick, onCardLike, onCardDelete }) {
+function Card({ card, onCardClick, onCardLike, onCardDelete, openDeleteCardPopup }) {
   const currentUser = useContext(CurrentUserContext);
 
   const isOwn = card.owner._id === currentUser._id;
@@ -15,14 +15,18 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
     onCardLike(card)
   }
 
-  function handleCardDelete() {
-    onCardDelete(card);
+  // function handleCardDelete() {
+  //   onCardDelete(card);
+  // }
+
+  function handleRecycleBinClick() {
+    openDeleteCardPopup(card)
   }
 
   return (
     <article className="card">
       <img className="card__image" src={card.link} alt={card.name} onClick={handleClick} />
-      {isOwn && <button onClick={handleCardDelete} type="button" className="card__recycle-bin" aria-label="Удалить карточку"></button>}
+      {isOwn && <button onClick={handleRecycleBinClick} type="button" className="card__recycle-bin" aria-label="Удалить карточку"></button>}
       <div className="card__caption">
         <h2 className="card__title">{card.name}</h2>
         <div className="card__like-counter">
