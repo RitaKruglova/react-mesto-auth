@@ -18,11 +18,16 @@ import '../App.css';
 import InfoTooltip from './InfoTooltip';
 import { getToken } from '../utils/auth';
 
+// На роуте "/" на ширине экрана от 320 до 340 пикселей присутствует горизонтальный скролл
+// Пожалуйста, уважаемый ревьювер, подскажите как его убрать
+// Я всё перепробовала, решения так и не нашла
+
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
+  const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({
     name: '',
@@ -33,6 +38,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
   const [email, setEmail] = useState('');
+  const [card, setCard] = useState({});
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -91,12 +97,18 @@ function App() {
     setIsAddPlacePopupOpen(true);
   }
 
+  function handleDeleteCardClick(card) {
+    setIsDeleteCardPopupOpen(true);
+    setCard(card);
+  }
+
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsInfoTooltipPopupOpen(false);
     setSelectedCard(null);
+    setIsDeleteCardPopupOpen(false);
   }
 
   function handleCardClick(card) {
@@ -155,10 +167,15 @@ function App() {
       })
   }
 
-  function handleCardDelete(card) {
+  function handleCardDelete(event) {
+    event.preventDefault();
+
     api.deleteCard(card._id)
       .then(() => {
         setCards(cards.filter(c => card._id !== c._id));
+      })
+      .then(() => {
+        closeAllPopups();
       })
       .catch(err => {
         console.log(err);
@@ -194,11 +211,12 @@ function App() {
                 <ProtectedRoute
                   cards={cards}
                   onCardLike={handleCardLike}
-                  onCardDelete={handleCardDelete}
+                  // onCardDelete={handleCardDelete}
                   onCardClick={handleCardClick}
                   onEditProfile={handleEditProfileClick}
                   onAddPlace={handleAddPlaceClick}
                   onEditAvatar={handleEditAvatarClick}
+                  openDeleteCardPopup={handleDeleteCardClick}
                   element={Main}
                 />
               }
@@ -234,6 +252,9 @@ function App() {
             title="Вы уверены?"
             buttonText="Да"
             onClose={closeAllPopups}
+            isOpen={isDeleteCardPopupOpen}
+            isSubmitting={true}
+            onSubmit={handleCardDelete}
           />
           <ImagePopup
             onClose={closeAllPopups}
