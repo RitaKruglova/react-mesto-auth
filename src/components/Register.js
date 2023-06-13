@@ -1,30 +1,36 @@
-import { useState } from "react";
+// import { useState } from "react";
 import AuthenticationForm from "./AuthenticationForm";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { register } from "../utils/auth";
+import useValidate from "../hooks/useValidate";
+import { validateEmail, validatePassword } from "../utils/validation";
 
 function Register({changeRegistrationState}) {
-  const navigate = useNavigate();
+  const EMAIL = 'email';
+  const PASSWORD = 'password';
 
-  const [formValue, setFormValue] = useState({
-    email: '',
-    password: ''
-  })
-
-  function handleChange(event) {
-    const {name, value} = event.target;
-
-    setFormValue({
-      ...formValue,
-      [name]: value
-    })
+  function validate(values) {
+    const errors = {};
+    const emailError = validateEmail(values[EMAIL]);
+    const passwordError = validatePassword(values[PASSWORD]);
+    if (emailError) {
+      errors[EMAIL] = emailError;
+    }
+    if (passwordError) {
+      errors[PASSWORD] = passwordError;
+    }
+    return errors;
   }
+
+  const { values, errors, handleChange, isSubmitting } = useValidate({
+    [EMAIL]: '',
+    [PASSWORD]: ''
+  }, validate);
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    const {email, password} = formValue;
-    register(email, password)
+    register(values[EMAIL], values[PASSWORD])
       .then(() => {
         changeRegistrationState(true);
       })
@@ -41,7 +47,15 @@ function Register({changeRegistrationState}) {
         title="Регистрация"
         onChange={handleChange}
         onSubmit={handleSubmit}
-        formValue={formValue}
+        formValue={values}
+        errors={errors}
+        isSubmitting={isSubmitting}
+        emailName={[EMAIL]}
+        passwordName={[PASSWORD]}
+        emailValue={values[EMAIL]}
+        passwordValue={values[PASSWORD]}
+        emailError={errors[EMAIL]}
+        passwordError={errors[PASSWORD]}
       />
       <Link className="authentication__link" to="/sign-in" >Уже зарегистрированы? Войти</Link>
     </>

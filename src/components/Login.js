@@ -1,5 +1,4 @@
 import AuthenticationForm from "./AuthenticationForm";
-import { useState } from "react";
 import { authorise } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
 import useValidate from "../hooks/useValidate";
@@ -28,20 +27,6 @@ function Login({ handleLogin, checkToken }) {
     [PASSWORD]: ''
   }, validate);
 
-  // const [formValue, setFormValue] = useState({
-  //   email: '',
-  //   password: ''
-  // })
-
-  // function handleChange(event) {
-  //   const {name, value} = event.target;
-
-  //   setFormValue({
-  //     ...formValue,
-  //     [name]: value
-  //   })
-  // }
-
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -51,10 +36,6 @@ function Login({ handleLogin, checkToken }) {
           [EMAIL]: '',
           [PASSWORD]: ''
         })
-        // setFormValue({
-        //   email: '',
-        //   password: ''
-        // });
         handleLogin();
         checkToken();
         navigate('/', {replace: true});
