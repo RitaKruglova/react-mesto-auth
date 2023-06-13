@@ -2,7 +2,7 @@ function AuthenticationForm(props) {
   return (
     <div className="authentication">
       <h2 className="authentication__title">{props.title}</h2>
-      <form className="authentication__form" onSubmit={props.onSubmit}>
+      <form className="authentication__form" onSubmit={props.onSubmit} noValidate>
         <input
           id="emailInput"
           className="authentication__input"
@@ -28,6 +28,7 @@ function AuthenticationForm(props) {
         <button
           className="authentication__submit-button"
           type="submit"
+          disabled={!props.isSubmitting}
         >
           {props.buttonText}
         </button>
