@@ -22,7 +22,6 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
 
   useEffect(() => {
     setValues({[AVATAR]: ''})
-    // inputAvatarRef.current.value = '';
   }, [isOpen]);
 
   function handleSubmit(event) {
@@ -45,7 +44,6 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
           required
           onChange={handleChange}
           value={values[AVATAR]}
-          // ref={inputAvatarRef}
         />
         <span id="input-link-avatar-error" className="popup__error popup__error_visible">{errors[AVATAR] && errors[AVATAR]}</span>
       </fieldset>

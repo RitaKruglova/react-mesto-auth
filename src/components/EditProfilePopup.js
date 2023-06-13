@@ -1,5 +1,5 @@
 import PopupWithForm from "./PopupWithForm";
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import useValidate from "../hooks/useValidate";
 import { validateText } from "../utils/validation";
@@ -27,20 +27,9 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
     [ABOUT]: ''
   }, validate);
 
-  // const [name, setName] = useState('');
-  // const [description, setDescription] = useState('');
-
   useEffect(() => {
     setValues({[FULLNAME]: currentUser.name, [ABOUT]: currentUser.about});
   }, [currentUser, isOpen]);
-
-  // function handleNameChange(event) {
-  //   setName(event.target.value);
-  // }
-
-  // function handleDescriptionChange(event) {
-  //   setDescription(event.target.value);
-  // }
 
   function handleSubmit(event) {
     event.preventDefault();
