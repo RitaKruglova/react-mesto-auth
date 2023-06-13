@@ -28,7 +28,7 @@ export function validateLink(value) {
   if (!value) {
     return 'Поле не может быть пустым';
   }
-  if (!/^(https?:\/\/)?[A-z\d-]*\.?[A-z\d-]+\.[a-z]{2,}$/.test(value)) {
+  if (!/^(https?:\/\/)?[A-z\d-]*\.?[A-z\d-]+\.[a-z]{2,}\/?.*$/.test(value)) {
     return 'Неправильный формат URL';
   }
   return '';
