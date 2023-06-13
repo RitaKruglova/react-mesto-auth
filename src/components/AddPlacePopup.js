@@ -7,9 +7,6 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
   const NAME = 'name';
   const LINK = 'link';
 
-  // const [name, setName] = useState('');
-  // const [link, setLink] = useState('');
-
   function validate(values) {
     const errors = {}
     const nameError = validateText(values[NAME]);
@@ -31,14 +28,6 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
   useEffect(() => {
     setValues({[NAME]: '', [LINK]: ''});
   }, [isOpen]);
-
-  // function handleNameChange(event) {
-  //   setName(event.target.value);
-  // }
-
-  // function handleLinkChange(event) {
-  //   setLink(event.target.value);
-  // }
 
   function handleSubmit(event) {
     event.preventDefault();

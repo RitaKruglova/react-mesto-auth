@@ -1,5 +1,4 @@
 .authentication__input {
-  margin-bottom: 30px;
   width: 358px;
   height: 27px;
   font-style: normal;
@@ -13,9 +12,9 @@
   color: #fff;
 }
 
-.authentication__input:last-of-type {
+/* .authentication__input:last-of-type {
   margin-bottom: 216px;
-}
+} */
 
 .authentication__input:focus {
   outline: none;
@@ -30,7 +29,7 @@
     width: 260px;
   }
 
-  .authentication__input:last-of-type {
+  /* .authentication__input:last-of-type {
     margin-bottom: 173px;
-  }
+  } */
 }

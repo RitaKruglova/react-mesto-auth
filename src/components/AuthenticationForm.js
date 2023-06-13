@@ -7,24 +7,24 @@ function AuthenticationForm(props) {
           id="emailInput"
           className="authentication__input"
           type="email"
-          name="email"
+          name={props.emailName}
           placeholder="Email"
           required
-          value={props.formValue.email}
+          value={props.emailValue}
           onChange={props.onChange}
         />
-        <span id="emailInputError" className="authentication__error authentication__error_visible"></span>
+        <span id="emailInputError" className="authentication__error authentication__error_visible">{props.emailError && props.emailError}</span>
         <input
           id="passwordInput"
           className="authentication__input"
           type="password"
-          name="password"
+          name={props.passwordName}
           placeholder="Пароль"
           required
-          value={props.formValue.password}
+          value={props.passwordValue}
           onChange={props.onChange}
         />
-        <span id="passwordInputError" className="authentication__error authentication__error_visible"></span>
+        <span id="passwordInputError" className="authentication__error authentication__error_visible">{props.passwordError && props.passwordError}</span>
         <button
           className="authentication__submit-button"
           type="submit"
