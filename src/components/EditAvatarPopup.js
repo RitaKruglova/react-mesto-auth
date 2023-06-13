@@ -1,35 +1,53 @@
 import PopupWithForm from "./PopupWithForm";
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useContext } from 'react';
+import { validateLink } from "../utils/validation";
+import useValidate from "../hooks/useValidate";
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
   const inputAvatarRef = useRef();
-  const formRef = useRef();
+  const AVATAR = 'avatar';
+
+  function validate(values) {
+    const errors = {}
+    const avatarError = validateLink(values[AVATAR]);
+    if (avatarError) {
+      errors[AVATAR] = avatarError;
+    }
+    return errors;
+  }
+
+  const { setValues, values, errors, handleChange, isSubmitting } = useValidate({
+    [AVATAR]: '',
+  }, validate);
 
   useEffect(() => {
-    inputAvatarRef.current.value = '';
+    setValues({[AVATAR]: ''})
+    // inputAvatarRef.current.value = '';
   }, [isOpen]);
 
   function handleSubmit(event) {
     event.preventDefault();
 
     onUpdateAvatar({
-      avatar: inputAvatarRef.current.value
+      avatar: values[AVATAR]
     })
   }
 
   return (
-    <PopupWithForm formRef={formRef} onSubmit={handleSubmit} name="avatar" title="Обновить аватар" isOpen={isOpen} onClose={onClose} >
+    <PopupWithForm isSubmitting={isSubmitting} onSubmit={handleSubmit} name="avatar" title="Обновить аватар" isOpen={isOpen} onClose={onClose} >
       <fieldset className="popup__info">
         <input
           id="input-link-avatar"
           type="url"
-          name="avatar-link"
+          name={AVATAR}
           className="popup__input popup__input_type_avatar"
           placeholder="Ссылка на картинку"
           required
-          ref={inputAvatarRef}
+          onChange={handleChange}
+          value={values[AVATAR]}
+          // ref={inputAvatarRef}
         />
-        <span id="input-link-avatar-error" className="popup__error popup__error_visible"></span>
+        <span id="input-link-avatar-error" className="popup__error popup__error_visible">{errors[AVATAR] && errors[AVATAR]}</span>
       </fieldset>
     </PopupWithForm>
   )

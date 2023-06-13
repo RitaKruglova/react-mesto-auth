@@ -13,6 +13,7 @@ function AuthenticationForm(props) {
           value={props.formValue.email}
           onChange={props.onChange}
         />
+        <span id="emailInputError" className="authentication__error authentication__error_visible"></span>
         <input
           id="passwordInput"
           className="authentication__input"
@@ -23,6 +24,7 @@ function AuthenticationForm(props) {
           value={props.formValue.password}
           onChange={props.onChange}
         />
+        <span id="passwordInputError" className="authentication__error authentication__error_visible"></span>
         <button
           className="authentication__submit-button"
           type="submit"
