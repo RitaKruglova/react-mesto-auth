@@ -17,12 +17,16 @@ function EditAvatarPopup({isOpen, onUpdateAvatar}) {
     return errors;
   }
 
-  const { setValues, values, errors, handleChange, isSubmitting } = useValidate({
+  const { setValues, values, errors, handleChange, isSubmitting, setErrors, setIsFirstRender } = useValidate({
     [AVATAR]: '',
   }, validate);
 
   useEffect(() => {
-    setValues({[AVATAR]: ''})
+    if (!isOpen) {
+      setIsFirstRender(true);
+      setErrors({});
+    }
+    setValues({[AVATAR]: ''});
   }, [isOpen]);
 
   function handleSubmit(event) {
