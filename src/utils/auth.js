@@ -1,3 +1,5 @@
+import { checkResponse } from "./utils";
+
 export const baseUrl = 'https://auth.nomoreparties.co';
 
 export function register(email, password) {
@@ -8,14 +10,11 @@ export function register(email, password) {
     },
     body: JSON.stringify({email, password})
   })
-    .then(res => {
-      if (res.status === 201) {
-        return res.json();
-      } else {
-        throw new Error('Registration failed')
-      }
-    })
+    .then(checkResponse)
     .then(res => res)
+    .catch(err => {
+      console.log(err)
+    })
 }
 
 export function authorise(email, password) {
@@ -26,13 +25,7 @@ export function authorise(email, password) {
     },
     body: JSON.stringify({email, password})
   })
-    .then(res => {
-      if (res.status === 200) {
-        return res.json();
-      } else {
-        throw new Error('Authorization failed')
-      }
-    })
+    .then(checkResponse)
     .then(data => {
       localStorage.setItem('jwt', data.token);
       return;
@@ -48,6 +41,9 @@ export function getToken(token) {
       "Authorization" : `Bearer ${token}`
     }
   })
-    .then(res => res.json())
+    .then(checkResponse)
     .then(data => data)
+    .catch(err => {
+      console.log(err)
+    })
 }

@@ -10,6 +10,7 @@ import AddPlacePopup from './AddPlacePopup';
 import { api } from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { LoggedInContext } from '../contexts/LoggedInContext';
+import { AppContext } from '../contexts/AppContext';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
@@ -18,9 +19,7 @@ import '../App.css';
 import InfoTooltip from './InfoTooltip';
 import { getToken } from '../utils/auth';
 
-// На роуте "/" на ширине экрана от 320 до 340 пикселей присутствует горизонтальный скролл
-// Пожалуйста, уважаемый ревьювер, подскажите как его убрать
-// Я всё перепробовала, решения так и не нашла
+// Я сбилдила, потом сделала деплой, все прошло успешно, но при переходе по ссылке на гитхабе , страница пустая
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -39,7 +38,9 @@ function App() {
   const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
   const [email, setEmail] = useState('');
   const [card, setCard] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const jwt = localStorage.getItem('jwt');
   
   useEffect(() => {
     api.getInitialCards()
@@ -66,17 +67,17 @@ function App() {
   }, []);
 
   function checkToken() {
-    if (localStorage.getItem('jwt')) {
-      const jwt = localStorage.getItem('jwt');
-
+    if (jwt) {
       getToken(jwt)
         .then(res => {
           if (res) {
+            // При выходе и входе с другого аккаунта, отображается в хедере старый эмейл, при перезагрузке меняется на новый
             setEmail(res.data.email);
             setLoggedIn(true);
             navigate('/', {replace: true});
           }
         })
+        .catch(err => console.log(err));
     }
   }
 
@@ -116,6 +117,7 @@ function App() {
   }
 
   function handleUpdateUser({ name, about }) {
+    setIsLoading(true);
     return api.setUserInfo({ name, about })
       .then(res => {
         return setCurrentUser({
@@ -130,9 +132,11 @@ function App() {
       .catch(err => {
         console.log(err);
       })
+      .finally(() => setIsLoading(false))
   }
 
   function handleUpdateAvatar({ avatar }) {
+    setIsLoading(true);
     return api.changeAvatar(avatar)
       .then(res => {
         return setCurrentUser({
@@ -146,6 +150,7 @@ function App() {
       .catch(err => {
         console.log(err);
       })
+      .finally(() => setIsLoading(false))
   }
 
   function handleCardLike(card) {
@@ -170,9 +175,10 @@ function App() {
   function handleCardDelete(event) {
     event.preventDefault();
 
+    setIsLoading(true);
     api.deleteCard(card._id)
       .then(() => {
-        setCards(cards.filter(c => card._id !== c._id));
+        setCards((state) => state.filter((item) => item._id !== card._id)); 
       })
       .then(() => {
         closeAllPopups();
@@ -180,9 +186,11 @@ function App() {
       .catch(err => {
         console.log(err);
       })
+      .finally(() => setIsLoading(false))
   }
 
   function handleAddPlaceSubmit({ name, link }) {
+    setIsLoading(true);
     return api.addNewCard({name, link })
       .then(newCard => {
         return setCards([newCard, ...cards]);
@@ -193,6 +201,7 @@ function App() {
       .catch(err => {
         console.log(err);
       })
+      .finally(() => setIsLoading(false))
   }
 
   function handleLogin() {
@@ -200,74 +209,69 @@ function App() {
   }
 
   return (
-    <CurrentUserContext.Provider value={currentUser} >
-      <LoggedInContext.Provider value={{loggedIn, setLoggedIn}} >
-        <div className="page">
-          <Header email={email} />
-          <Routes>
-            <Route
-              path='/'
-              element={
-                <ProtectedRoute
-                  cards={cards}
-                  onCardLike={handleCardLike}
-                  // onCardDelete={handleCardDelete}
-                  onCardClick={handleCardClick}
-                  onEditProfile={handleEditProfileClick}
-                  onAddPlace={handleAddPlaceClick}
-                  onEditAvatar={handleEditAvatarClick}
-                  openDeleteCardPopup={handleDeleteCardClick}
-                  element={Main}
-                />
-              }
+    <AppContext.Provider value={{isLoading, closeAllPopups}} >
+      <CurrentUserContext.Provider value={currentUser} >
+        <LoggedInContext.Provider value={{loggedIn, setLoggedIn}} >
+          <div className="page">
+            <Header email={email} />
+            <Routes>
+              <Route
+                path='/'
+                element={
+                  <ProtectedRoute
+                    cards={cards}
+                    onCardLike={handleCardLike}
+                    onCardClick={handleCardClick}
+                    onEditProfile={handleEditProfileClick}
+                    onAddPlace={handleAddPlaceClick}
+                    onEditAvatar={handleEditAvatarClick}
+                    openDeleteCardPopup={handleDeleteCardClick}
+                    element={Main}
+                  />
+                }
+              />
+              <Route path="/sign-in" element={<Login handleLogin={handleLogin} checkToken={checkToken} />} />
+              <Route
+                path="sign-up"
+                element={
+                  <Register
+                    changeRegistrationState={changeRegistrationState}
+                  />
+                }
+              />
+            </Routes>
+            <Footer />
+            <EditProfilePopup
+              onUpdateUser={handleUpdateUser}
+              isOpen={isEditProfilePopupOpen}
             />
-            <Route path="/sign-in" element={<Login handleLogin={handleLogin} checkToken={checkToken} />} />
-            <Route
-              path="sign-up"
-              element={
-                <Register
-                  changeRegistrationState={changeRegistrationState}
-                />
-              }
+            <AddPlacePopup
+              onAddPlace={handleAddPlaceSubmit}
+              isOpen={isAddPlacePopupOpen}
             />
-          </Routes>
-          <Footer />
-          <EditProfilePopup
-            onUpdateUser={handleUpdateUser}
-            isOpen={isEditProfilePopupOpen}
-            onClose={closeAllPopups}
-          />
-          <AddPlacePopup
-            onAddPlace={handleAddPlaceSubmit}
-            isOpen={isAddPlacePopupOpen}
-            onClose={closeAllPopups}
-          />
-          <EditAvatarPopup
-            onUpdateAvatar={handleUpdateAvatar}
-            isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopups}
-          />
-          <PopupWithForm
-            name="delete-card"
-            title="Вы уверены?"
-            buttonText="Да"
-            onClose={closeAllPopups}
-            isOpen={isDeleteCardPopupOpen}
-            isSubmitting={true}
-            onSubmit={handleCardDelete}
-          />
-          <ImagePopup
-            onClose={closeAllPopups}
-            card={selectedCard}
-          />
-          <InfoTooltip
-            isOpen={isInfoTooltipPopupOpen}
-            onClose={closeAllPopups}
-            isRegistrationSuccess={isRegistrationSuccess}
-          />
-        </div>
-      </LoggedInContext.Provider>
-    </CurrentUserContext.Provider>
+            <EditAvatarPopup
+              onUpdateAvatar={handleUpdateAvatar}
+              isOpen={isEditAvatarPopupOpen}
+            />
+            <PopupWithForm
+              name="delete-card"
+              title="Вы уверены?"
+              buttonText={isLoading ? 'Удаление...' : 'Да'}
+              isOpen={isDeleteCardPopupOpen}
+              isSubmitting={true}
+              onSubmit={handleCardDelete}
+            />
+            <ImagePopup
+              card={selectedCard}
+            />
+            <InfoTooltip
+              isOpen={isInfoTooltipPopupOpen}
+              isRegistrationSuccess={isRegistrationSuccess}
+            />
+          </div>
+        </LoggedInContext.Provider>
+      </CurrentUserContext.Provider>
+    </AppContext.Provider>
   );
 }
 

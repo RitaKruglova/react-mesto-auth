@@ -1,9 +1,11 @@
 import PopupWithForm from "./PopupWithForm";
-import { useState, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import useValidate from "../hooks/useValidate";
 import { validateText, validateLink } from "../utils/validation";
+import { AppContext } from "../contexts/AppContext";
 
-function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
+function AddPlacePopup({isOpen, onAddPlace}) {
+  const { isLoading } = useContext(AppContext)
   const NAME = 'name';
   const LINK = 'link';
 
@@ -20,12 +22,16 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
     return errors;
   }
 
-  const { setValues, values, errors, handleChange, isSubmitting } = useValidate({
+  const { setValues, values, errors, handleChange, isSubmitting, setErrors, setIsFirstRender } = useValidate({
     [NAME]: '',
     [LINK]: ''
   }, validate);
 
   useEffect(() => {
+    if (!isOpen) {
+      setIsFirstRender(true);
+      setErrors({});
+    }
     setValues({[NAME]: '', [LINK]: ''});
   }, [isOpen]);
 
@@ -39,7 +45,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
   }
 
   return (
-    <PopupWithForm isSubmitting={isSubmitting} onSubmit={handleSubmit} name="add-card" title="Новое место" buttonText="Создать" isOpen={isOpen} onClose={onClose} >
+    <PopupWithForm isSubmitting={isSubmitting} onSubmit={handleSubmit} name="add-card" title="Новое место" buttonText={isLoading? 'Сохранение...' : 'Создать'} isOpen={isOpen} >
       <fieldset className="popup__info">
         <input
           id="input-picture-name"
