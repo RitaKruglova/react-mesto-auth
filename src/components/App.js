@@ -36,6 +36,7 @@ function App() {
   const [email, setEmail] = useState('');
   const [card, setCard] = useState({});
   const navigate = useNavigate();
+  const jwt = localStorage.getItem('jwt');
   
   useEffect(() => {
     api.getInitialCards()
@@ -62,8 +63,7 @@ function App() {
   }, []);
 
   function checkToken() {
-    if (localStorage.getItem('jwt')) {
-      const jwt = localStorage.getItem('jwt');
+    if (jwt) {
 
       getToken(jwt)
         .then(res => {
@@ -73,6 +73,7 @@ function App() {
             navigate('/', {replace: true});
           }
         })
+        .catch(err => console.log(err));
     }
   }
 

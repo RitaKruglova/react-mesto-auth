@@ -40,6 +40,9 @@ function Login({ handleLogin, checkToken }) {
         checkToken();
         navigate('/', {replace: true});
       })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   return (
