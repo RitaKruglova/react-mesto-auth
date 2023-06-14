@@ -18,10 +18,6 @@ import '../App.css';
 import InfoTooltip from './InfoTooltip';
 import { getToken } from '../utils/auth';
 
-// На роуте "/" на ширине экрана от 320 до 340 пикселей присутствует горизонтальный скролл
-// Пожалуйста, уважаемый ревьювер, подскажите как его убрать
-// Я всё перепробовала, решения так и не нашла
-
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
