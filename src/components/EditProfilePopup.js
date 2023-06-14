@@ -5,7 +5,7 @@ import useValidate from "../hooks/useValidate";
 import { validateText } from "../utils/validation";
 import { AppContext } from "../contexts/AppContext";
 
-function EditProfilePopup({ isOpen, onUpdateUser }) {
+function EditProfilePopup({isOpen, onUpdateUser}) {
   const { isLoading } = useContext(AppContext);
   const currentUser = useContext(CurrentUserContext);
   const FULLNAME =  'fullname';

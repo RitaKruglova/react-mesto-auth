@@ -5,7 +5,7 @@ import HeaderButton from './HeaderButton';
 import HeaderInfo from './HeaderInfo';
 import { LoggedInContext } from '../contexts/LoggedInContext';
 
-function Header(props) {
+function Header({email}) {
   const { loggedIn, setLoggedIn } = useContext(LoggedInContext);
   const navigate = useNavigate();
 
@@ -34,14 +34,14 @@ function Header(props) {
 
   return (
     <>
-      {width < 768 && isMenuOpen && loggedIn && <HeaderInfo email={props.email} onClick={logout} />}
+      {width < 768 && isMenuOpen && loggedIn && <HeaderInfo email={email} onClick={logout} />}
       <header className="header">
         <img src={logo} alt="Логотип Место" className="header__logo" />
         <Routes>
           <Route
             path='/'
             element={
-              width > 768 ? loggedIn && <HeaderInfo email={props.email} onClick={logout} /> : <HeaderButton onClick={toggleMenuVisibility} isOpen={isMenuOpen} />
+              width > 768 ? loggedIn && <HeaderInfo email={email} onClick={logout} /> : <HeaderButton onClick={toggleMenuVisibility} isOpen={isMenuOpen} />
             }
           >
           </Route>

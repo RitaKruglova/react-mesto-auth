@@ -4,7 +4,7 @@ import { validateLink } from "../utils/validation";
 import useValidate from "../hooks/useValidate";
 import { AppContext } from "../contexts/AppContext";
 
-function EditAvatarPopup({ isOpen, onUpdateAvatar }) {
+function EditAvatarPopup({isOpen, onUpdateAvatar}) {
   const { isLoading } = useContext(AppContext);
   const AVATAR = 'avatar';
 
