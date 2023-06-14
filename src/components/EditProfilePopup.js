@@ -3,8 +3,10 @@ import { useContext, useEffect } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import useValidate from "../hooks/useValidate";
 import { validateText } from "../utils/validation";
+import { AppContext } from "../contexts/AppContext";
 
-function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
+function EditProfilePopup({isOpen, onUpdateUser}) {
+  const { isLoading } = useContext(AppContext);
   const currentUser = useContext(CurrentUserContext);
   const FULLNAME =  'fullname';
   const ABOUT = 'about';
@@ -22,13 +24,16 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
     return errors;
   }
 
-  const { setValues, values, errors, handleChange, isSubmitting } = useValidate({
+  const { setValues, values, errors, handleChange, isSubmitting, setIsSubmitting } = useValidate({
     [FULLNAME]: '',
     [ABOUT]: ''
   }, validate);
 
   useEffect(() => {
     setValues({[FULLNAME]: currentUser.name, [ABOUT]: currentUser.about});
+    if (values) {
+      setIsSubmitting(true);
+    }
   }, [currentUser, isOpen]);
 
   function handleSubmit(event) {
@@ -41,7 +46,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   }
 
   return (
-    <PopupWithForm isSubmitting={isSubmitting} onSubmit={handleSubmit} name="edit-profile" title="Редактировать профиль" isOpen={isOpen} onClose={onClose}>
+    <PopupWithForm isSubmitting={isSubmitting} onSubmit={handleSubmit} name="edit-profile" title="Редактировать профиль" isOpen={isOpen} buttonText={isLoading? 'Сохранение...' : 'Сохранить'} >
       <fieldset className="popup__info">
         <input
           id="profileNameInput"
