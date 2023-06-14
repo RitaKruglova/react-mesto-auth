@@ -16,6 +16,9 @@ export function register(email, password) {
       }
     })
     .then(res => res)
+    .catch(err => {
+      console.log(err)
+    })
 }
 
 export function authorise(email, password) {
@@ -50,4 +53,7 @@ export function getToken(token) {
   })
     .then(res => res.json())
     .then(data => data)
+    .catch(err => {
+      console.log(err)
+    })
 }
