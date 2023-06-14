@@ -19,6 +19,8 @@ import '../App.css';
 import InfoTooltip from './InfoTooltip';
 import { getToken } from '../utils/auth';
 
+// Я сбилдила, потом сделала деплой, все прошло успешно, но при переходе по ссылке на гитхабе , страница пустая
+
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
@@ -66,10 +68,10 @@ function App() {
 
   function checkToken() {
     if (jwt) {
-
       getToken(jwt)
         .then(res => {
           if (res) {
+            // При выходе и входе с другого аккаунта, отображается в хедере старый эмейл, при перезагрузке меняется на новый
             setEmail(res.data.email);
             setLoggedIn(true);
             navigate('/', {replace: true});

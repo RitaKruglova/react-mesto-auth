@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function useValidate(initialState, validate) {
+export default function useValidate(initialState, validate) {
   const [values, setValues] = useState(initialState);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -48,4 +48,4 @@ function useValidate(initialState, validate) {
   };
 }
 
-export default useValidate;
+
