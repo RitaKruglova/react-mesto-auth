@@ -1,8 +1,11 @@
 import { useContext } from "react";
 import { AppContext } from "../contexts/AppContext";
+import { usePopupClose } from "../hooks/usePopupClose";
 
 function PopupWithForm(props) {
   const { closeAllPopups } = useContext(AppContext);
+
+  usePopupClose(props.isOpen, closeAllPopups);
 
   return (
     <div className={`popup popup_type_${props.name}${props.isOpen ? ' popup_opened' : ''}`}>

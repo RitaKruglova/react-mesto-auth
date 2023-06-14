@@ -3,10 +3,13 @@ import failed from '../images/state-failed.svg';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
+import { usePopupClose } from '../hooks/usePopupClose';
 
 function InfoTooltip(props) {
   const { closeAllPopups } = useContext(AppContext);
   const navigate = useNavigate();
+
+  usePopupClose(props.isOpen, closeAllPopups);
 
   function handleClose() {
     closeAllPopups();

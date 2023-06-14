@@ -1,8 +1,11 @@
 import { useContext } from "react";
 import { AppContext } from "../contexts/AppContext";
+import { usePopupClose } from "../hooks/usePopupClose";
 
 function ImagePopup(props) {
   const { closeAllPopups } = useContext(AppContext);
+
+  usePopupClose(props.card, closeAllPopups);
 
   return (
     <div className={`popup popup_type_picture${props.card ? ' popup_opened' : ''}`}>
