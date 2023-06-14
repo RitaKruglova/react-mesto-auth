@@ -20,12 +20,16 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
     return errors;
   }
 
-  const { setValues, values, errors, handleChange, isSubmitting } = useValidate({
+  const { setValues, values, errors, handleChange, isSubmitting, setErrors, setIsFirstRender } = useValidate({
     [NAME]: '',
     [LINK]: ''
   }, validate);
 
   useEffect(() => {
+    if (!isOpen) {
+      setIsFirstRender(true);
+      setErrors({});
+    }
     setValues({[NAME]: '', [LINK]: ''});
   }, [isOpen]);
 
