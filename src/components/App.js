@@ -141,12 +141,12 @@ function App() {
         })
       })
       .then(() => {
-        setIsLoading(false);
         closeAllPopups();
       })
       .catch(err => {
         console.log(err);
       })
+      .finally(() => setIsLoading(false))
   }
 
   function handleUpdateAvatar({ avatar }) {
@@ -159,12 +159,12 @@ function App() {
         })
       })
       .then(() => {
-        setIsLoading(false);
         closeAllPopups();
       })
       .catch(err => {
         console.log(err);
       })
+      .finally(() => setIsLoading(false))
   }
 
   function handleCardLike(card) {
@@ -192,15 +192,15 @@ function App() {
     setIsLoading(true);
     api.deleteCard(card._id)
       .then(() => {
-        setCards(cards.filter(c => card._id !== c._id));
+        setCards((state) => state.filter((item) => item._id !== card._id)); 
       })
       .then(() => {
-        setIsLoading(false);
         closeAllPopups();
       })
       .catch(err => {
         console.log(err);
       })
+      .finally(() => setIsLoading(false))
   }
 
   function handleAddPlaceSubmit({ name, link }) {
@@ -211,11 +211,11 @@ function App() {
       })
       .then(() => {
         closeAllPopups();
-        setIsLoading(false);
       })
       .catch(err => {
         console.log(err);
       })
+      .finally(() => setIsLoading(false))
   }
 
   function handleLogin() {
