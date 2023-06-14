@@ -1,12 +1,15 @@
 import success from '../images/state-succes.svg';
 import failed from '../images/state-failed.svg';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { AppContext } from '../contexts/AppContext';
 
 function InfoTooltip(props) {
+  const { closeAllPopups } = useContext(AppContext);
   const navigate = useNavigate();
 
   function handleClose() {
-    props.onClose();
+    closeAllPopups();
     if (props.isRegistrationSuccess) {
       navigate('/sign-in');
     }

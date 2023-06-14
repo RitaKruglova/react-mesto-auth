@@ -43,7 +43,8 @@ function useValidate(initialState, validate) {
     isSubmitting,
     setValues,
     setErrors,
-    setIsFirstRender
+    setIsFirstRender,
+    setIsSubmitting
   };
 }
 
