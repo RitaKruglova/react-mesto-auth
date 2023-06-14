@@ -1,10 +1,11 @@
 import PopupWithForm from "./PopupWithForm";
-import { useRef, useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { validateLink } from "../utils/validation";
 import useValidate from "../hooks/useValidate";
+import { AppContext } from "../contexts/AppContext";
 
-function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
-  const inputAvatarRef = useRef();
+function EditAvatarPopup({ isOpen, onUpdateAvatar }) {
+  const { isLoading } = useContext(AppContext);
   const AVATAR = 'avatar';
 
   function validate(values) {
@@ -33,7 +34,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
   }
 
   return (
-    <PopupWithForm isSubmitting={isSubmitting} onSubmit={handleSubmit} name="avatar" title="Обновить аватар" isOpen={isOpen} onClose={onClose} >
+    <PopupWithForm isSubmitting={isSubmitting} onSubmit={handleSubmit} name="avatar" title="Обновить аватар" isOpen={isOpen} buttonText={isLoading? 'Сохранение...' : 'Сохранить'} >
       <fieldset className="popup__info">
         <input
           id="input-link-avatar"
