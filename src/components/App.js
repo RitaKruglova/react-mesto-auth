@@ -19,8 +19,9 @@ import '../App.css';
 import InfoTooltip from './InfoTooltip';
 import { getToken } from '../utils/auth';
 
-// https://ritakruglova.github.io/react-mesto-auth/
-// Сделала всё в точности по инструкции, но страница всё равно не отображается
+// Спасибо Вам большое, оказалось что gh pages не работает с Browser Router
+// И вместо Browser Router я использовала в index.js другое решение и все заработало
+// Надеюсь, это не запрещено))
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
