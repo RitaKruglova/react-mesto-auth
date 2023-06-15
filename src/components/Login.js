@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useValidate from "../hooks/useValidate";
 import { validateEmail, validatePassword } from "../utils/validation";
 
-function Login({ handleLogin, checkToken }) {
+function Login({ handleLogin, setEmail }) {
   const EMAIL = 'email';
   const PASSWORD = 'password';
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ function Login({ handleLogin, checkToken }) {
           [PASSWORD]: ''
         })
         handleLogin();
-        checkToken();
+        setEmail(values[EMAIL]);
         navigate('/', {replace: true});
       })
       .catch(err => {
