@@ -12,9 +12,6 @@ export function register(email, password) {
   })
     .then(checkResponse)
     .then(res => res)
-    .catch(err => {
-      console.log(err)
-    })
 }
 
 export function authorise(email, password) {
@@ -30,7 +27,6 @@ export function authorise(email, password) {
       localStorage.setItem('jwt', data.token);
       return;
     })
-    .catch(err => console.log(err))
 }
 
 export function getToken(token) {
@@ -43,7 +39,4 @@ export function getToken(token) {
   })
     .then(checkResponse)
     .then(data => data)
-    .catch(err => {
-      console.log(err)
-    })
 }

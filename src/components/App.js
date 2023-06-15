@@ -19,7 +19,8 @@ import '../App.css';
 import InfoTooltip from './InfoTooltip';
 import { getToken } from '../utils/auth';
 
-// Я сбилдила, потом сделала деплой, все прошло успешно, но при переходе по ссылке на гитхабе , страница пустая
+// https://ritakruglova.github.io/react-mesto-auth/
+// Сделала всё в точности по инструкции, но страница всё равно не отображается
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -75,6 +76,7 @@ function App() {
             setEmail(res.data.email);
             setLoggedIn(true);
             navigate('/', {replace: true});
+            return res;
           }
         })
         .catch(err => console.log(err));
@@ -213,7 +215,7 @@ function App() {
       <CurrentUserContext.Provider value={currentUser} >
         <LoggedInContext.Provider value={{loggedIn, setLoggedIn}} >
           <div className="page">
-            <Header email={email} />
+            <Header email={email} setEmail={setEmail} />
             <Routes>
               <Route
                 path='/'
@@ -230,7 +232,7 @@ function App() {
                   />
                 }
               />
-              <Route path="/sign-in" element={<Login handleLogin={handleLogin} checkToken={checkToken} />} />
+              <Route path="/sign-in" element={<Login handleLogin={handleLogin} checkToken={checkToken} setEmail={setEmail} />} />
               <Route
                 path="sign-up"
                 element={
