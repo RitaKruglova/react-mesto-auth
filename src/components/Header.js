@@ -5,7 +5,7 @@ import HeaderButton from './HeaderButton';
 import HeaderInfo from './HeaderInfo';
 import { LoggedInContext } from '../contexts/LoggedInContext';
 
-function Header({email}) {
+function Header({email, setEmail}) {
   const { loggedIn, setLoggedIn } = useContext(LoggedInContext);
   const navigate = useNavigate();
 
@@ -30,6 +30,7 @@ function Header({email}) {
     localStorage.removeItem('jwt');
     navigate('/sign-in');
     setLoggedIn(false);
+    setEmail('');
   }
 
   return (
