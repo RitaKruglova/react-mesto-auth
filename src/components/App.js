@@ -19,10 +19,6 @@ import '../App.css';
 import InfoTooltip from './InfoTooltip';
 import { getToken } from '../utils/auth';
 
-// Спасибо Вам большое, оказалось что gh pages не работает с Browser Router
-// И вместо Browser Router я использовала в index.js другое решение и все заработало
-// Надеюсь, это не запрещено))
-
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);

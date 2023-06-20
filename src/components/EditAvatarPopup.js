@@ -38,7 +38,15 @@ function EditAvatarPopup({isOpen, onUpdateAvatar}) {
   }
 
   return (
-    <PopupWithForm isSubmitting={isSubmitting} onSubmit={handleSubmit} name="avatar" title="Обновить аватар" isOpen={isOpen} buttonText={isLoading? 'Сохранение...' : 'Сохранить'} >
+    <PopupWithForm
+      isSubmitting={isSubmitting}
+      onSubmit={handleSubmit}
+      name="avatar"
+      title="Обновить аватар"
+      isOpen={isOpen}
+      buttonText={isLoading? 'Сохранение...' : 'Сохранить'}
+      buttonClass="popup__submit-button"
+    >
       <fieldset className="popup__info">
         <input
           id="input-link-avatar"

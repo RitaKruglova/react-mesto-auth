@@ -45,7 +45,14 @@ function AddPlacePopup({isOpen, onAddPlace}) {
   }
 
   return (
-    <PopupWithForm isSubmitting={isSubmitting} onSubmit={handleSubmit} name="add-card" title="Новое место" buttonText={isLoading? 'Сохранение...' : 'Создать'} isOpen={isOpen} >
+    <PopupWithForm
+      isSubmitting={isSubmitting}
+      onSubmit={handleSubmit}
+      name="add-card"
+      title="Новое место"
+      buttonText={isLoading? 'Сохранение...' : 'Создать'} isOpen={isOpen}
+      buttonClass="popup__submit-button"
+    >
       <fieldset className="popup__info">
         <input
           id="input-picture-name"
