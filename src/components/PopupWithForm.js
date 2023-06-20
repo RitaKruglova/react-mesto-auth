@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { AppContext } from "../contexts/AppContext";
 import { usePopupClose } from "../hooks/usePopupClose";
 
-function PopupWithForm({isOpen, name, title, isSubmitting, buttonText, children, onSubmit}) {
+function PopupWithForm({isOpen, name, title, isSubmitting, buttonText, children, onSubmit, buttonClass}) {
   const { closeAllPopups } = useContext(AppContext);
 
   usePopupClose(isOpen, closeAllPopups);
@@ -16,7 +16,7 @@ function PopupWithForm({isOpen, name, title, isSubmitting, buttonText, children,
           {children}
           <button
             type="submit"
-            className={`popup__submit-button${isSubmitting ? '' : ' popup__submit-button_disabled'}`}
+            className={`${buttonClass || 'popup__confirm-button'}${isSubmitting ? '' : ` ${buttonClass || 'popup__confirm-button'}_disabled`}`}
             disabled={!isSubmitting}
           >
             {buttonText || 'Сохранить'}

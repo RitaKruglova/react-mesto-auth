@@ -46,7 +46,15 @@ function EditProfilePopup({isOpen, onUpdateUser}) {
   }
 
   return (
-    <PopupWithForm isSubmitting={isSubmitting} onSubmit={handleSubmit} name="edit-profile" title="Редактировать профиль" isOpen={isOpen} buttonText={isLoading? 'Сохранение...' : 'Сохранить'} >
+    <PopupWithForm
+      isSubmitting={isSubmitting}
+      onSubmit={handleSubmit} 
+      name="edit-profile"
+      title="Редактировать профиль"
+      isOpen={isOpen}
+      buttonText={isLoading? 'Сохранение...' : 'Сохранить'}
+      buttonClass="popup__submit-button"
+    >
       <fieldset className="popup__info">
         <input
           id="profileNameInput"
