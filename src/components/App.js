@@ -69,7 +69,6 @@ function App() {
       getToken(jwt)
         .then(res => {
           if (res) {
-            // При выходе и входе с другого аккаунта, отображается в хедере старый эмейл, при перезагрузке меняется на новый
             setEmail(res.data.email);
             setLoggedIn(true);
             navigate('/', {replace: true});
